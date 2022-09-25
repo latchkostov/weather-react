@@ -1,11 +1,16 @@
-import { Day } from "../services/weather/forecast-weather";
+import {
+  Current,
+  Day,
+  ForecastWeather,
+} from "../services/weather/forecast-weather";
 
-export const getPrefenceDisplayString = (
+const degreesC = "°C";
+const degreesF = "°F";
+
+export const getDayPrefenceDisplayString = (
   tempObject: Day,
   temperatureUnit: number
 ) => {
-  const degreesC = "°C";
-  const degreesF = "°F";
   return {
     minTemp:
       temperatureUnit === 0
@@ -15,5 +20,17 @@ export const getPrefenceDisplayString = (
       temperatureUnit === 0
         ? tempObject.maxtemp_c + degreesC
         : tempObject.maxtemp_f + degreesF,
+  };
+};
+
+export const getCurrentTempDislayString = (
+  tempObject: Current,
+  temperatureUnit: number
+) => {
+  return {
+    temp:
+      temperatureUnit === 0
+        ? tempObject.temp_c + degreesC
+        : tempObject.temp_f + degreesF,
   };
 };

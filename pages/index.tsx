@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTemperatureUnit } from "../store/slices/preferences-slice";
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,19 +9,24 @@ import {
   Forecastday,
   ForecastWeather,
 } from "../services/weather/forecast-weather";
+import { getCurrentTempDislayString } from "../utils/temperature-utils";
+import { RootState } from "../store/store";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const temperatureUnit = useSelector(
+    (state: RootState) => state.prefences.temperatureUnit
+  );
 
   const getGreeting = useCallback((date: Date) => {
     const dateHours = date.getHours();
     switch (true) {
       case dateHours >= 0 && dateHours < 12:
-        return "Good Morning";
+        return "Morning";
       case dateHours >= 12 && dateHours < 18:
-        return "Good Afternoon";
+        return "Afternoon";
       default:
-        return "Good Evening";
+        return "Evening";
     }
   }, []);
 
@@ -42,7 +47,7 @@ export default function Home() {
   useEffect(() => {
     if (forecaseWeatherData) {
       setCurrentLocationDisplay(
-        ` - ${forecaseWeatherData.location.name}, ${forecaseWeatherData.location.country}`
+        `${forecaseWeatherData.location.name}, ${forecaseWeatherData.location.country}`
       );
       setForecastWeather(forecaseWeatherData);
     }
@@ -64,10 +69,9 @@ export default function Home() {
     <div className={`w-full h-screen flex flex-col`}>
       <h1 className={`${styles.header} text-center text-md uppercase`}>
         <span className="inline-block">{greeting}</span>
-        <span className="inline-block">{currentLocationDisplay}</span>
+        <span className="inline-block">&nbsp; - {currentLocationDisplay}</span>
         <span className="inline-block">
-          {" "}
-          - {forecaseWeatherData.current.temp_f} °F
+          &nbsp; {getCurrentTempDislayString(forecaseWeatherData.current, temperatureUnit).temp}
         </span>
         <img
           className="inline-block"
