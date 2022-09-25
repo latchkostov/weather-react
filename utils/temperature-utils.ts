@@ -1,15 +1,12 @@
-import {
-  Current,
-  Day,
-  ForecastWeather,
-} from "../services/weather/forecast-weather";
+import { Current, Day } from "../services/weather/forecast-weather";
+import { TempUnit } from "../store/slices/preferences-slice";
 
-const degreesC = "°C";
-const degreesF = "°F";
+const degreesC = " °C";
+const degreesF = " °F";
 
 export const getDayPrefenceDisplayString = (
   tempObject: Day,
-  temperatureUnit: number
+  temperatureUnit: TempUnit
 ) => {
   return {
     minTemp:
@@ -25,7 +22,7 @@ export const getDayPrefenceDisplayString = (
 
 export const getCurrentTempDislayString = (
   tempObject: Current,
-  temperatureUnit: number
+  temperatureUnit: TempUnit
 ) => {
   return {
     temp:

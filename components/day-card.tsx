@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
 import type { RootState } from "../store/store";
-import { Forecastday } from "../services/weather/forecast-weather";
 import { getDayPrefenceDisplayString } from "../utils/temperature-utils";
 import styles from "./day-card.module.css";
 

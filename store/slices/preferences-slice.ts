@@ -1,19 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+export enum TempUnit {
+  Celcius = 0,
+  Fahrenheit = 1,
+}
+
 export interface PreferencesState {
-  temperatureUnit: number;
+  temperatureUnit: TempUnit;
 }
 
 const initialState: PreferencesState = {
-  temperatureUnit: 0,
+  temperatureUnit: TempUnit.Celcius,
 };
 
 export const preferencesSlice = createSlice({
   name: "preferences",
   initialState,
   reducers: {
-    setTemperatureUnit: (state, action: PayloadAction<number>) => {
+    setTemperatureUnit: (state, action: PayloadAction<TempUnit>) => {
       state.temperatureUnit = action.payload;
     },
   },
