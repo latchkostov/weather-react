@@ -54,7 +54,6 @@ export default function Home() {
     }
     return "";
   }, [forecastWeather?.location?.localtime]);
-  dispatch(setTemperatureUnit(0));
 
   if (isForecastWeatherLoading || !forecastWeather) return "Loading...";
 
@@ -75,6 +74,12 @@ export default function Home() {
           src={forecaseWeatherData.current.condition.icon}
           style={{ height: "32px" }}
         />
+        <select onChange={(e) => {
+          dispatch(setTemperatureUnit(+e.target.value));
+        }}>
+          <option value={0} label="Celcius" />
+          <option value={1} label="Fahrenheit" />
+        </select>
       </h1>
       <div className={`${styles.body} flex justify-center flex-grow w-full`}>
         <div className={`${styles.cardsContainer} grid w-full px-5 py-5`}>
