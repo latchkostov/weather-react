@@ -26,7 +26,7 @@ export const getCurrentTempDislayString = (
 ) => {
   return {
     temp:
-      temperatureUnit === 0
+      temperatureUnit === TempUnit.Celcius
         ? tempObject.temp_c + degreesC
         : tempObject.temp_f + degreesF,
   };
