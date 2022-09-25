@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { RootState } from "../store/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setTemperatureUnit } from "../store/slices/preferences-slice";
 import { useQuery } from "@tanstack/react-query";
 
