@@ -14,7 +14,7 @@ export const getDayPrefenceDisplayString = (
         ? tempObject.mintemp_c + degreesC
         : tempObject.mintemp_f + degreesF,
     maxTemp:
-      temperatureUnit === TempUnit.Fahrenheit
+      temperatureUnit === TempUnit.Celcius
         ? tempObject.maxtemp_c + degreesC
         : tempObject.maxtemp_f + degreesF,
   };
