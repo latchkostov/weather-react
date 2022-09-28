@@ -2,7 +2,7 @@ import { store } from "../store/store";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import "../styles/globals.css";
+import "../styles/globals.scss";
 
 const queryClient = new QueryClient();
 

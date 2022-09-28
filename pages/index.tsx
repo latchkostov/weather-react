@@ -4,7 +4,7 @@ import { setTemperatureUnit } from "../store/slices/preferences-slice";
 import { useQuery } from "@tanstack/react-query";
 
 import { DayCard } from "../components/day-card";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.scss";
 import {
   Forecastday,
   ForecastWeather,
@@ -71,19 +71,32 @@ export default function Home() {
         <span className="inline-block">{greeting}</span>
         <span className="inline-block">&nbsp; - {currentLocationDisplay}</span>
         <span className="inline-block">
-          &nbsp; {getCurrentTempDislayString(forecaseWeatherData.current, temperatureUnit).temp}
+          &nbsp;{" "}
+          {
+            getCurrentTempDislayString(
+              forecaseWeatherData.current,
+              temperatureUnit
+            ).temp
+          }
         </span>
         <img
           className="inline-block"
           src={forecaseWeatherData.current.condition.icon}
           style={{ height: "32px" }}
         />
-        <select onChange={(e) => {
-          dispatch(setTemperatureUnit(+e.target.value));
-        }}>
-          <option value={0} label="Celcius" />
-          <option value={1} label="Fahrenheit" />
-        </select>
+        
+        <span className="mx-3">|</span>
+        <span className="mr-4">Temp Unit:</span>
+        <label>
+          <select
+            onChange={(e) => {
+              dispatch(setTemperatureUnit(+e.target.value));
+            }}
+          >
+            <option value={0} label="C" />
+            <option value={1} label="F" />
+          </select>
+        </label>
       </h1>
       <div className={`${styles.body} flex justify-center flex-grow w-full`}>
         <div className={`${styles.cardsContainer} grid w-full px-5 py-5`}>
