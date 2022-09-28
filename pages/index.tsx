@@ -40,7 +40,7 @@ export default function Home() {
     data: forecaseWeatherData,
   } = useQuery(["forecastWeather"], () =>
     fetch(
-      "http://api.weatherapi.com/v1/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no"
+      "https://api.weatherapi.com/v1/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no"
     ).then((res) => res.json())
   );
 
