@@ -1,17 +1,23 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { Day } from "../services/weather/forecast-weather";
 
 import type { RootState } from "../store/store";
 import { getDayPrefenceDisplayString } from "../utils/temperature-utils";
 import styles from "./day-card.module.css";
 
-export const DayCard = ({ day }) => {
+type DayCardProps = {
+  day: Day;
+  date: string;
+};
+
+export const DayCard = ({ day, date }: DayCardProps) => {
   const temperatureUnit = useSelector(
     (state: RootState) => state.prefences.temperatureUnit
   );
   const dayOfWeek = useMemo(() => {
-    const date = new Date(day.date);
-    return date.toLocaleDateString("en-US", { weekday: "short" });
+    const d = new Date(date);
+    return d.toLocaleDateString("en-US", { weekday: "short" });
   }, [day]);
 
   return (
@@ -28,10 +34,10 @@ export const DayCard = ({ day }) => {
       </div>
       <div className="flex flex-col py-2">
         <span className="text-xs">
-          Low: {getDayPrefenceDisplayString(day.day, temperatureUnit).minTemp}
+          Low: {getDayPrefenceDisplayString(day, temperatureUnit).minTemp}
         </span>
         <span className="text-xs">
-          High: {getDayPrefenceDisplayString(day.day, temperatureUnit).maxTemp}
+          High: {getDayPrefenceDisplayString(day, temperatureUnit).maxTemp}
         </span>
       </div>
     </div>
