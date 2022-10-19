@@ -1,16 +1,24 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTemperatureUnit } from "../store/slices/preferences-slice";
-import { useQuery } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
 import { DayCard } from "../components/day-card";
-import styles from "../styles/Home.module.scss";
 import {
   Forecastday,
   ForecastWeather,
 } from "../services/weather/forecast-weather";
 import { getCurrentTempDislayString } from "../utils/temperature-utils";
 import { RootState } from "../store/store";
+
+import styles from "../styles/Home.module.scss";
+
+const forecastQueryKey = "forecastWeather";
+const getWeatherData = async () => {
+  return fetch(
+    "https://api.weatherapi.com/v1/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no"
+  ).then((res) => res.json());
+};
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -38,14 +46,10 @@ export default function Home() {
     isLoading: isForecastWeatherLoading,
     error: forecastWeatherError,
     data: forecaseWeatherData,
-  } = useQuery(["forecastWeather"], () =>
-    fetch(
-      "https://api.weatherapi.com/v1/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no"
-    ).then((res) => res.json())
-  );
+  } = useQuery([forecastQueryKey], getWeatherData);
 
   useEffect(() => {
-    if (forecaseWeatherData) {
+    if (forecaseWeatherData?.location) {
       setCurrentLocationDisplay(
         `${forecaseWeatherData.location.name}, ${forecaseWeatherData.location.country}`
       );
@@ -58,7 +62,7 @@ export default function Home() {
       return getGreeting(new Date(forecastWeather.location.localtime));
     }
     return "";
-  }, [forecastWeather?.location?.localtime]);
+  }, [forecastWeather?.location?.localtime, getGreeting]);
 
   if (isForecastWeatherLoading || !forecastWeather) return "Loading...";
 
@@ -84,7 +88,7 @@ export default function Home() {
           src={forecaseWeatherData.current.condition.icon}
           style={{ height: "32px" }}
         />
-        
+
         <span className="mx-3">|</span>
         <span className="mr-4">Temp Unit:</span>
         <label>
@@ -107,4 +111,14 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery([forecastQueryKey], getWeatherData);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
