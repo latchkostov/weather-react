@@ -105,7 +105,7 @@ export default function Home() {
       <div className={`${styles.body} flex justify-center flex-grow w-full`}>
         <div className={`${styles.cardsContainer} grid w-full px-5 py-5`}>
           {forecastWeather.forecast.forecastday.map((d: Forecastday) => (
-            <DayCard key={d.date_epoch} date={d.date} day={d.day} />
+            <DayCard key={d.date_epoch} forecastDay={d} />
           ))}
         </div>
       </div>

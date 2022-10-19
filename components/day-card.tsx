@@ -1,24 +1,28 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { Day } from "../services/weather/forecast-weather";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { Day, Forecastday } from "../services/weather/forecast-weather";
 
 import type { RootState } from "../store/store";
 import { getDayPrefenceDisplayString } from "../utils/temperature-utils";
 import styles from "./day-card.module.css";
+import { setForecastDay } from "../store/slices/day-slice";
 
 type DayCardProps = {
-  day: Day;
-  date: string;
+  forecastDay: Forecastday;
 };
 
-export const DayCard = ({ day, date }: DayCardProps) => {
+export const DayCard = ({ forecastDay }: DayCardProps) => {
+  const day = useMemo(() => forecastDay.day, [forecastDay.day]);
+  const date = useMemo(() => forecastDay.date, [forecastDay.date]);
+  const dispatch = useDispatch();
   const temperatureUnit = useSelector(
     (state: RootState) => state.prefences.temperatureUnit
   );
   const dayOfWeek = useMemo(() => {
     const d = new Date(date);
     return d.toLocaleDateString("en-US", { weekday: "short" });
-  }, [day]);
+  }, [date]);
 
   return (
     <div
@@ -39,6 +43,11 @@ export const DayCard = ({ day, date }: DayCardProps) => {
         <span className="text-xs">
           High: {getDayPrefenceDisplayString(day, temperatureUnit).maxTemp}
         </span>
+      </div>
+      <div>
+        <Link href={{ pathname: "/hourly" }}>
+          <button onClick={() => dispatch(setForecastDay(forecastDay))}>View Hourly</button>
+        </Link>
       </div>
     </div>
   );

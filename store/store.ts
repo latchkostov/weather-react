@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import preferencesReducer from "./slices/preferences-slice";
+import forecastDayReducer from "./slices/day-slice";
 
 export const store = configureStore({
   reducer: {
     prefences: preferencesReducer,
+    forecastDay: forecastDayReducer,
   },
 });
 
