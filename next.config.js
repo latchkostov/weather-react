@@ -2,6 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/weather/:path*",
+        destination: "https://api.weatherapi.com/v1/:path*",
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

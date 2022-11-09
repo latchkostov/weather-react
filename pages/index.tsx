@@ -16,7 +16,9 @@ import styles from "../styles/Home.module.scss";
 const forecastQueryKey = "forecastWeather";
 const getWeatherData = async () => {
   return fetch(
-    "https://api.weatherapi.com/v1/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no"
+    "http://localhost:3000/api/weather/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no", {
+      mode: "no-cors",
+    }
   ).then((res) => res.json());
 };
 
