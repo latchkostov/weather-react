@@ -14,7 +14,7 @@ import { getCurrentTempDislayString } from "../utils/temperature-utils";
 import { RootState } from "../store/store";
 
 import styles from "../styles/Home.module.scss";
-
+console.log('test')
 const forecastQueryKey = "forecastWeather";
 const getWeatherData = async () => {
   const prefix = `${location.protocol}//${location.host}`;
