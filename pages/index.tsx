@@ -73,10 +73,9 @@ export default function Home() {
   return (
     <div className={`w-full h-screen flex flex-col`}>
       <h1 className={`${styles.header} text-center text-md uppercase`}>
-        <span className="inline-block">{dateTimeStringForLocation}</span>
-        <span className="inline-block">&nbsp; - {currentLocationDisplay}</span>
+        <span className="inline-block">{currentLocationDisplay} - {dateTimeStringForLocation}</span>
         <span className="inline-block">
-          &nbsp;{" "}
+          &nbsp;{" - "}
           {
             getCurrentTempDislayString(
               forecaseWeatherData.current,
