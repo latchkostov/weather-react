@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DateTime } from "luxon";
 import { setTemperatureUnit } from "../store/slices/preferences-slice";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -28,18 +29,6 @@ export default function Home() {
     (state: RootState) => state.prefences.temperatureUnit
   );
 
-  const getGreeting = useCallback((date: Date) => {
-    const dateHours = date.getHours();
-    switch (true) {
-      case dateHours >= 0 && dateHours < 12:
-        return "Morning";
-      case dateHours >= 12 && dateHours < 18:
-        return "Afternoon";
-      default:
-        return "Evening";
-    }
-  }, []);
-
   const [currentLocationDisplay, setCurrentLocationDisplay] = useState("");
 
   const [forecastWeather, setForecastWeather] = useState<ForecastWeather>(null);
@@ -59,12 +48,22 @@ export default function Home() {
     }
   }, [forecaseWeatherData]);
 
-  const greeting = useMemo(() => {
-    if (forecastWeather?.location?.localtime) {
-      return getGreeting(new Date(forecastWeather.location.localtime));
+  const dateTimeStringForLocation = useMemo(() => {
+    if (
+      forecastWeather?.location?.localtime_epoch &&
+      forecastWeather?.location?.tz_id
+    ) {
+      const dateTime = DateTime.fromSeconds(
+        forecastWeather.location.localtime_epoch,
+        { zone: forecastWeather.location.tz_id }
+      );
+      return dateTime.toLocaleString(DateTime.DATETIME_MED);
     }
     return "";
-  }, [forecastWeather?.location?.localtime, getGreeting]);
+  }, [
+    forecastWeather?.location?.localtime_epoch,
+    forecastWeather?.location?.tz_id,
+  ]);
 
   if (isForecastWeatherLoading || !forecastWeather) return "Loading...";
 
@@ -74,7 +73,7 @@ export default function Home() {
   return (
     <div className={`w-full h-screen flex flex-col`}>
       <h1 className={`${styles.header} text-center text-md uppercase`}>
-        <span className="inline-block">{greeting}</span>
+        <span className="inline-block">{dateTimeStringForLocation}</span>
         <span className="inline-block">&nbsp; - {currentLocationDisplay}</span>
         <span className="inline-block">
           &nbsp;{" "}
