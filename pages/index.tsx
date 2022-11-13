@@ -86,7 +86,7 @@ export default function Home() {
           }
         </span>
         <Image
-          alt="weather icon"
+          alt={forecaseWeatherData.current.condition.text}
           className="inline-block"
           src={`https:${forecaseWeatherData.current.condition.icon}`}
           width={32}

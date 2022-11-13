@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { Day, Forecastday } from "../services/weather/forecast-weather";
+import { Forecastday } from "../services/weather/forecast-weather";
 
 import type { RootState } from "../store/store";
 import { getDayPrefenceDisplayString } from "../utils/temperature-utils";
-import styles from "./day-card.module.css";
+import styles from "./day-card.module.scss";
 import { setForecastDay } from "../store/slices/day-slice";
 
 type DayCardProps = {
@@ -34,7 +34,12 @@ export const DayCard = ({ forecastDay }: DayCardProps) => {
         <h1 className={"text-sm my-2 uppercase"}>{dayOfWeek}</h1>
       </div>
       <div className={`${styles.weatherImageContainer}`}>
-        {/* <img alt="" src={sun} /> */}
+        <Image
+          alt={day.condition.text}
+          src={`https:${day.condition.icon}`}
+          width={64}
+          height={64}
+        />
       </div>
       <div className="flex flex-col py-2">
         <span className="text-xs">
@@ -45,9 +50,13 @@ export const DayCard = ({ forecastDay }: DayCardProps) => {
         </span>
       </div>
       <div>
-        <Link href={{ pathname: "/hourly" }}>
-          <button onClick={() => dispatch(setForecastDay(forecastDay))}>View Hourly</button>
-        </Link>
+        <button
+          type="button"
+          className={styles["hourly-button"]}
+          onClick={() => dispatch(setForecastDay(forecastDay))}
+        >
+          View Hourly
+        </button>
       </div>
     </div>
   );
