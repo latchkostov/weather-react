@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTemperatureUnit } from "../store/slices/preferences-slice";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 import { DayCard } from "../components/day-card";
 import {
@@ -15,7 +16,7 @@ import styles from "../styles/Home.module.scss";
 
 const forecastQueryKey = "forecastWeather";
 const getWeatherData = async () => {
-  const prefix = `${location.protocol}//${location.host}`
+  const prefix = `${location.protocol}//${location.host}`;
   return fetch(
     `${prefix}/api/weather/forecast.json?key=056c2d58d7bf4d3d9de234918222009&q=London&days=7&aqi=no&alerts=no`
   ).then((res) => res.json());
@@ -84,10 +85,12 @@ export default function Home() {
             ).temp
           }
         </span>
-        <img
+        <Image
+          alt="weather icon"
           className="inline-block"
-          src={forecaseWeatherData.current.condition.icon}
-          style={{ height: "32px" }}
+          src={`https:${forecaseWeatherData.current.condition.icon}`}
+          width={32}
+          height={32}
         />
 
         <span className="mx-3">|</span>
