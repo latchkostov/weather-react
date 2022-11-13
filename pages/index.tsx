@@ -68,6 +68,7 @@ export default function Home() {
 
   if (forecastWeatherError)
     return "An error has occurred: " + forecastWeatherError;
+  console.log('test');
 
   return (
     <div className={`w-full h-screen flex flex-col`}>
